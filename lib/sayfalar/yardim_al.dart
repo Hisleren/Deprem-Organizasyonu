@@ -261,49 +261,67 @@ class _YardimAlState extends State<YardimAl> with TickerProviderStateMixin {
   }
 
   Widget _buildContactCard(
-    ColorScheme colorScheme,
-    TextTheme textTheme,
-    EmergencyContact contact,
-    double screenWidth,
-  ) {
-    return GestureDetector(
-      onTap: () => _callEmergency(contact.number),
-      child: Container(
-        padding: EdgeInsets.all(screenWidth * 0.04),
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: contact.color.withOpacity(0.2)),
-          boxShadow: [
-            BoxShadow(
-              color: colorScheme.shadow.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
+  ColorScheme colorScheme,
+  TextTheme textTheme,
+  EmergencyContact contact,
+  double screenWidth,
+) {
+  return GestureDetector(
+    onTap: () => _callEmergency(contact.number),
+    child: Container(
+      padding: EdgeInsets.all(screenWidth * 0.03), // Reduced padding
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: contact.color.withOpacity(0.2)),
+        boxShadow: [
+          BoxShadow(
+            color: colorScheme.shadow.withOpacity(0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min, // Added this
+        children: [
+          Flexible( // Wrapped icon in Flexible
+            flex: 2,
+            child: Icon(
               contact.icon,
               color: contact.color,
-              size: screenWidth * 0.08,
+              size: screenWidth * 0.07, // Reduced size slightly
             ),
-            const SizedBox(height: 8),
-            FittedBox(
+          ),
+          SizedBox(height: screenWidth * 0.015), // Responsive spacing
+          
+          Flexible( // Wrapped name in Flexible
+            flex: 2,
+            child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
                 contact.name,
-                style: textTheme.titleMedium?.copyWith(
+                style: textTheme.titleSmall?.copyWith( // Changed from titleMedium
                   fontWeight: FontWeight.bold,
+                  fontSize: screenWidth * 0.035, // Responsive font size
                 ),
                 textAlign: TextAlign.center,
+                maxLines: 2, // Allow 2 lines for longer names
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            const SizedBox(height: 4),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          ),
+          
+          SizedBox(height: screenWidth * 0.01), // Responsive spacing
+          
+          Flexible( // Wrapped number container in Flexible
+            flex: 1,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.02, // Responsive padding
+                vertical: screenWidth * 0.01,
+              ),
               decoration: BoxDecoration(
                 color: contact.color.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
@@ -312,18 +330,22 @@ class _YardimAlState extends State<YardimAl> with TickerProviderStateMixin {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   contact.number,
-                  style: textTheme.titleLarge?.copyWith(
+                  style: textTheme.titleMedium?.copyWith(
                     color: contact.color,
                     fontWeight: FontWeight.bold,
+                    fontSize: screenWidth * 0.04, // Responsive font size
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildHelpRequestForm(ColorScheme colorScheme, TextTheme textTheme, double screenWidth) {
     return Column(

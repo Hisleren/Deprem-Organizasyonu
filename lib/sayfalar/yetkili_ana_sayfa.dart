@@ -480,119 +480,123 @@ class _YetkiliAnaSayfaState extends State<YetkiliAnaSayfa>
   }
 
   Widget _buildQuickActions(ColorScheme colorScheme, TextTheme textTheme, double screenWidth) {
-    final actions = [
-      AdminAction(
-        icon: Icons.map,
-        title: 'Yardım Haritası',
-        subtitle: 'Konum bazlı yardım talepleri',
-        color: colorScheme.primary,
-        page: const SecondPage(),
-      ),
-      AdminAction(
-        icon: Icons.people_outline,
-        title: 'Kullanıcı Yönetimi',
-        subtitle: 'Tüm kullanıcıları görüntüle',
-        color: colorScheme.secondary,
-        page: const YetkiliBilgileri(),
-      ),
-      AdminAction(
-        icon: Icons.emergency_share,
-        title: 'Acil Durum Talepleri',
-        subtitle: 'Aktif yardım çağrıları',
-        color: colorScheme.error,
-        page: const EmergencyRequestsPage(),
-      ),
-      AdminAction(
-        icon: Icons.analytics,
-        title: 'Raporlar',
-        subtitle: 'Sistem analiz ve raporları',
-        color: colorScheme.tertiary,
-        page: const ReportsPage(),
-      ),
-    ];
+  final actions = [
+    AdminAction(
+      icon: Icons.map,
+      title: 'Yardım Haritası',
+      subtitle: 'Konum bazlı yardım talepleri',
+      color: colorScheme.primary,
+      page: const SecondPage(),
+    ),
+    AdminAction(
+      icon: Icons.people_outline,
+      title: 'Kullanıcı Yönetimi',
+      subtitle: 'Tüm kullanıcıları görüntüle',
+      color: colorScheme.secondary,
+      page: const YetkiliBilgileri(),
+    ),
+    AdminAction(
+      icon: Icons.emergency_share,
+      title: 'Acil Durum Talepleri',
+      subtitle: 'Aktif yardım çağrıları',
+      color: colorScheme.error,
+      page: const EmergencyRequestsPage(),
+    ),
+    AdminAction(
+      icon: Icons.analytics,
+      title: 'Raporlar',
+      subtitle: 'Sistem analiz ve raporları',
+      color: colorScheme.tertiary,
+      page: const ReportsPage(),
+    ),
+  ];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Hızlı Erişim',
-            style: textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: colorScheme.onBackground,
-            ),
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.centerLeft,
+        child: Text(
+          'Hızlı Erişim',
+          style: textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: colorScheme.onBackground,
           ),
         ),
-        const SizedBox(height: 16),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: screenWidth * 0.04,
-            mainAxisSpacing: screenWidth * 0.04,
-            childAspectRatio: 1.1,
-          ),
-          itemCount: actions.length,
-          itemBuilder: (context, index) {
-            return _buildActionCard(
-              colorScheme,
-              textTheme,
-              actions[index],
-              index,
-              screenWidth,
-            );
-          },
+      ),
+      const SizedBox(height: 16),
+      GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: screenWidth * 0.03, // Reduced spacing
+          mainAxisSpacing: screenWidth * 0.03,  // Reduced spacing
+          childAspectRatio: 1.2, // Increased for better text space
         ),
-      ],
-    );
-  }
+        itemCount: actions.length,
+        itemBuilder: (context, index) {
+          return _buildActionCard(
+            colorScheme,
+            textTheme,
+            actions[index],
+            index,
+            screenWidth,
+          );
+        },
+      ),
+    ],
+  );
+}
 
   Widget _buildActionCard(
-    ColorScheme colorScheme,
-    TextTheme textTheme,
-    AdminAction action,
-    int index,
-    double screenWidth,
-  ) {
-    return TweenAnimationBuilder<double>(
-      duration: Duration(milliseconds: 800 + (index * 200)),
-      tween: Tween(begin: 0.0, end: 1.0),
-      curve: Curves.elasticOut,
-      builder: (context, value, child) {
-        return Transform.scale(
-          scale: value,
-          child: GestureDetector(
-            onTap: () {
-              HapticFeedback.lightImpact();
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => action.page),
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: action.color.withOpacity(0.2)),
-                boxShadow: [
-                  BoxShadow(
-                    color: action.color.withOpacity(0.1),
-                    blurRadius: 15,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(screenWidth * 0.05),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: screenWidth * 0.12,
-                      height: screenWidth * 0.12,
+  ColorScheme colorScheme,
+  TextTheme textTheme,
+  AdminAction action,
+  int index,
+  double screenWidth,
+) {
+  return TweenAnimationBuilder<double>(
+    duration: Duration(milliseconds: 800 + (index * 200)),
+    tween: Tween(begin: 0.0, end: 1.0),
+    curve: Curves.elasticOut,
+    builder: (context, value, child) {
+      return Transform.scale(
+        scale: value,
+        child: GestureDetector(
+          onTap: () {
+            HapticFeedback.lightImpact();
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => action.page),
+            );
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: action.color.withOpacity(0.2)),
+              boxShadow: [
+                BoxShadow(
+                  color: action.color.withOpacity(0.1),
+                  blurRadius: 15,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(screenWidth * 0.04), // Reduced padding
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min, // Added this
+                children: [
+                  // Icon container - Fixed flex
+                  Flexible(
+                    flex: 2,
+                    child: Container(
+                      width: screenWidth * 0.1, // Reduced icon container size
+                      height: screenWidth * 0.1,
                       decoration: BoxDecoration(
                         color: action.color.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(12),
@@ -600,39 +604,67 @@ class _YetkiliAnaSayfaState extends State<YetkiliAnaSayfa>
                       child: Icon(
                         action.icon,
                         color: action.color,
-                        size: screenWidth * 0.06,
+                        size: screenWidth * 0.05, // Reduced icon size
                       ),
                     ),
-                    const Spacer(),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        action.title,
-                        style: textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: colorScheme.onSurface,
+                  ),
+                  
+                  // Flexible spacer instead of fixed Spacer
+                  Flexible(
+                    flex: 1,
+                    child: SizedBox(height: screenWidth * 0.02),
+                  ),
+                  
+                  // Title - Flexible with proper constraints
+                  Flexible(
+                    flex: 2,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          action.title,
+                          style: textTheme.titleSmall?.copyWith( // Changed from titleMedium
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.onSurface,
+                            fontSize: screenWidth * 0.035, // Responsive font size
+                          ),
+                          maxLines: 2, // Allow 2 lines for title
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      action.subtitle,
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurface.withOpacity(0.6),
+                  ),
+                  
+                  SizedBox(height: screenWidth * 0.01), // Responsive spacing
+                  
+                  // Subtitle - Flexible with proper constraints
+                  Flexible(
+                    flex: 2,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        action.subtitle,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurface.withOpacity(0.6),
+                          fontSize: screenWidth * 0.025, // Responsive font size
+                          height: 1.2, // Line height for better readability
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-        );
-      },
-    );
-  }
+        ),
+      );
+    },
+  );
+} 
 
   Widget _buildRecentActivity(ColorScheme colorScheme, TextTheme textTheme, double screenWidth) {
     return Column(
